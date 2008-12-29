@@ -1,0 +1,103 @@
+;;; -*- Mode: Lisp; Mode: StumpWM; -*-
+;;; .stumpwm
+
+(in-package :stumpwm)
+
+(setq *startup-message* nil)
+(setq *deny-raise-request* t)
+
+(mapcar #'(lambda (f)
+            (load (concat "/home/tomo/.stumpwm.d/" f)))
+        '("contrib/battery.lisp"
+          "contrib/notifications.lisp"))
+
+;; --- process management ---------------------------------------
+(defun ps-exists (ps)
+  (let ((f "ps -ef | grep ~S | grep -v -e grep -e stumpish | wc -l"))
+    (< 0 (parse-integer (run-shell-command (format nil f ps) t)))))
+
+(defun start-uniq-command-ps (command &key op (bg t))
+  (unless (ps-exists command)
+    (run-shell-command
+     (concat command " " (or op "") " " (if bg "&" "")))))
+
+(defun kill-ps (command)
+  (let ((f (concat "kill -TERM `ps -ef | grep ~S | "
+                   "grep -v grep | awk '{print $2}'`")))
+    (run-shell-command (format nil f command))))
+
+;; --- run these commands when a session starts -----------------
+(run-shell-command "xsetroot -solid gray20")
+(run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
+(start-uniq-command-ps "nm-applet" :op "--sm-disable")
+(start-uniq-command-ps "gnome-settings-daemon")
+(start-uniq-command-ps "gnome-power-manager")
+(start-uniq-command-ps "gnome-valume-manager")
+(start-uniq-command-ps "update-notifier")
+(run-shell-command "/home/tomo/src/sh/backup_alert.sh")
+
+;; --- command definitions --------------------------------------
+(defmacro def-run-or-raise-command (cmd prop)
+  (let ((cmd-str (string-downcase (symbol-name cmd))))
+    `(defcommand ,cmd () ()
+       (run-or-raise ,cmd-str ,prop))))
+
+(def-run-or-raise-command firefox '(:class "Firefox"))
+(def-run-or-raise-command skype '(:class "Skype"))
+(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
+(def-run-or-raise-command emacs-snapshot-gtk '(:instance "emacs-snapshot-gtk"))
+
+(defcommand show-battery () ()
+  (echo-string (current-screen) (run-shell-command "acpi" t)))
+
+(defcommand gnome-panel () ()
+  (if (ps-exists "gnome-panel")
+    (progn (kill-ps "gnome-panel")
+           (sleep 0.3)
+           (run-shell-command "stumpish mode-line")
+           (start-uniq-command-ps "nm-applet" :op "--sm-disable"))
+    (progn (when (head-mode-line (current-head))
+             (mode-line))
+           (run-shell-command "gnome-panel"))))
+
+;; --- key bindings ----------------------------------------------
+(set-prefix-key (kbd "C-,"))
+(define-key *root-map* (kbd "0") "remove")
+(define-key *root-map* (kbd "1") "only")
+(define-key *root-map* (kbd "2") "vsplit")
+(define-key *root-map* (kbd "3") "hsplit")
+(define-key *root-map* (kbd "s") "colon exec firefox http://")
+(define-key *root-map* (kbd "c") "gnome-terminal")
+(define-key *root-map* (kbd "C-c") "gnome-terminal")
+(define-key *root-map* (kbd "e") "emacs-snapshot-gtk")
+(define-key *root-map* (kbd "C-e") "emacs-snapshot-gtk")
+(define-key *root-map* (kbd "*") "show-battery")
+(define-key *root-map* (kbd "w") "windowlist")
+(define-key *root-map* (kbd "C-w") "windowlist")
+(define-key *root-map* (kbd "b") "firefox")
+(define-key *root-map* (kbd "C-b") "firefox")
+;; emacs style
+(define-key *input-map*  (kbd "C-m") 'input-submit)
+(define-key *input-map*  (kbd "C-h") 'input-delete-backward-char)
+(define-key *input-map*  (kbd "M-p") 'input-history-back)
+(define-key *input-map*  (kbd "M-n") 'input-history-forward)
+(define-key *resize-map* (kbd "C-m") "exit-iresize")
+(define-key *resize-map* (kbd "C-t") "exit-iresize")
+(define-key *root-map*   (kbd "N") '*notifications-map*)
+
+;; --- mode line ------------------------------------------------
+(setf *mode-line-screen-position* :top)
+(setf *mode-line-frame-position* :top)
+(setf *mode-line-border-width* 1)
+(setf *mode-line-pad-x* 6)
+(setf *mode-line-pad-y* 0)
+(setf *mode-line-background-color* "gray20")
+(setf *mode-line-foreground-color* "wheat")
+(setf *mode-line-border-color* "dark grey")
+(setf stumpwm:*screen-mode-line-format*
+      (list "^03%N^n "
+	    '(:eval (run-shell-command
+                     "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
+            " | %b | %g"))
+(unless (head-mode-line (current-head))
+  (mode-line))
