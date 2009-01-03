@@ -6,10 +6,11 @@
 (setq *startup-message* nil)
 (setq *deny-raise-request* t)
 
-(mapcar #'(lambda (f)
-            (load (concat "/home/tomo/.stumpwm.d/" f)))
-        '("contrib/battery.lisp"
-          "contrib/notifications.lisp"))
+(mapcar #'(lambda (x)
+            (load (make-pathname
+                   :directory '(:relative ".stumpwm.d" "contrib")
+                   :name x :type "lisp")))
+        '("battery" "notifications"))
 
 ;; --- process management ---------------------------------------
 (defun ps-exists (ps)
