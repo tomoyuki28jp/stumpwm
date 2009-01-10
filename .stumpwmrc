@@ -35,7 +35,7 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
-(run-shell-command "/home/tomo/src/backup/alert.sh")
+(run-shell-command "/home/tomo/src/backup/backup.sh --alert")
 
 ;; --- command definitions --------------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
