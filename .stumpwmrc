@@ -28,14 +28,13 @@
     (run-shell-command (format nil f command))))
 
 ;; --- run these commands when a session starts -----------------
-(run-shell-command "xsetroot -solid gray20")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
 (start-uniq-command-ps "gnome-settings-daemon")
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
-(run-shell-command "/home/tomo/src/backup/backup.sh --alert")
+(run-shell-command "/home/tomo/src/backup/alert.sh")
 
 ;; --- command definitions --------------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
@@ -46,7 +45,6 @@
 (def-run-or-raise-command firefox '(:class "Firefox"))
 (def-run-or-raise-command skype '(:class "Skype"))
 (def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
-(def-run-or-raise-command emacs-snapshot-gtk '(:instance "emacs-snapshot-gtk"))
 
 (defcommand show-battery () ()
   (echo-string (current-screen) (run-shell-command "acpi" t)))
@@ -55,8 +53,7 @@
   (if (ps-exists "gnome-panel")
     (progn (kill-ps "gnome-panel")
            (sleep 0.3)
-           (run-shell-command "stumpish mode-line")
-           (start-uniq-command-ps "nm-applet" :op "--sm-disable"))
+           (run-shell-command "stumpish mode-line"))
     (progn (when (head-mode-line (current-head))
              (mode-line))
            (run-shell-command "gnome-panel"))))
@@ -66,8 +63,6 @@
 (define-key *root-map*   (kbd "s") "colon exec firefox http://")
 (define-key *root-map*   (kbd "c") "gnome-terminal")
 (define-key *root-map*   (kbd "C-c") "gnome-terminal")
-(define-key *root-map*   (kbd "e") "emacs-snapshot-gtk")
-(define-key *root-map*   (kbd "C-e") "emacs-snapshot-gtk")
 (define-key *root-map*   (kbd "*") "show-battery")
 (define-key *root-map*   (kbd "w") "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
@@ -92,7 +87,7 @@
 (setf *mode-line-border-width* 1)
 (setf *mode-line-pad-x* 6)
 (setf *mode-line-pad-y* 0)
-(setf *mode-line-background-color* "gray20")
+(setf *mode-line-background-color* "black")
 (setf *mode-line-foreground-color* "wheat")
 (setf *mode-line-border-color* "dark grey")
 (setf stumpwm:*screen-mode-line-format*
