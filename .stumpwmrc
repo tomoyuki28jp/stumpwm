@@ -28,6 +28,7 @@
     (run-shell-command (format nil f command))))
 
 ;; --- run these commands when a session starts -----------------
+(run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
 (start-uniq-command-ps "gnome-settings-daemon")
