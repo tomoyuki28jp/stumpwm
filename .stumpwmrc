@@ -29,7 +29,7 @@
 (defun kill-ps (command)
   (run-shell-command (kill-ps-command command)))
 
-; --- shell commands --------------------------------------------
+; --- run shell commands  ---------------------------------------
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
@@ -39,7 +39,7 @@
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "/home/tomo/src/backup/alert.sh")
 
-; --- shell commands --------------------------------------------
+; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
   (let ((history *input-history*)
         (arg (argument-pop input))
@@ -69,7 +69,7 @@
 (define-sudo-command emobile
     (concat "pon em && sudo " (kill-ps-command "Network")) :output t)
 
-; --- stumpwm commands ------------------------------------------
+; --- stumpwm command definitions -------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
   (let ((cmd-str (string-downcase (symbol-name cmd))))
     `(defcommand ,cmd () ()
