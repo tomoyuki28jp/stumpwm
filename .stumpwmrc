@@ -122,7 +122,7 @@
 (setf *mode-line-background-color* "black")
 (setf *mode-line-foreground-color* "wheat")
 (setf *mode-line-border-color* "dark grey")
-(setf stumpwm:*screen-mode-line-format*
+(setf *screen-mode-line-format*
       (list "^03%N^n "
 	    '(:eval (run-shell-command
                      "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
