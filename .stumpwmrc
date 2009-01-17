@@ -22,12 +22,14 @@
     (run-shell-command
      (concat command " " (or op "") " " (if bg "&" "")))))
 
-(defun kill-ps (command)
-  (let ((f (concat "kill -TERM `ps -ef | grep ~S | "
-                   "grep -v grep | awk '{print $2}'`")))
-    (run-shell-command (format nil f command))))
+(defun kill-ps-command (command)
+  (format nil "kill -TERM `ps -ef | grep ~S | grep -v grep | awk '{print $2}'`"
+          command))
 
-; --- run these commands when a session starts ------------------
+(defun kill-ps (command)
+  (run-shell-command (kill-ps-command command)))
+
+; --- shell commands --------------------------------------------
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
@@ -37,7 +39,37 @@
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "/home/tomo/src/backup/alert.sh")
 
-; --- command definitions ---------------------------------------
+; --- shell commands --------------------------------------------
+(define-stumpwm-type :password (input prompt)
+  (let ((history *input-history*)
+        (arg (argument-pop input))
+        (fn (symbol-function 'draw-input-bucket)))
+    (unless arg
+      (unwind-protect
+           (setf (symbol-function 'draw-input-bucket)
+                 (lambda (screen prompt input &optional errorp)
+                   (let ((i (copy-structure input)))
+                     (setf (input-line-string i)
+                           (make-string (length (input-line-string i))
+                                        :initial-element #\*))
+                     (funcall fn screen prompt i)))
+                 arg (read-one-line (current-screen) prompt))
+        (setf (symbol-function 'draw-input-bucket) fn
+              *input-history* history))
+      arg)))
+
+(defmacro define-sudo-command (name command &key output)
+  (let ((cmd (gensym)))
+    `(defcommand ,name (password) ((:password "sudo password: "))
+      (let ((,cmd (concat "echo '" password "' | sudo -S " ,command)))
+        ,(if output
+             `(run-prog-collect-output *shell-program* "-c" ,cmd)
+             `(run-prog *shell-program* :args (list "-c" ,cmd) :wait nil))))))
+
+(define-sudo-command emobile
+    (concat "pon em && sudo " (kill-ps-command "Network")) :output t)
+
+; --- stumpwm commands ------------------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
   (let ((cmd-str (string-downcase (symbol-name cmd))))
     `(defcommand ,cmd () ()
