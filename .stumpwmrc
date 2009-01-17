@@ -1,5 +1,5 @@
-;;; -*- Mode: Lisp; Mode: StumpWM; -*-
-;;; .stumpwm
+; -*- Mode: Lisp; Mode: StumpWM; -*-
+; .stumpwmrc
 
 (in-package :stumpwm)
 
@@ -12,7 +12,7 @@
                    :name x :type "lisp")))
         '("battery" "notifications"))
 
-;; --- process management ---------------------------------------
+; --- process management ----------------------------------------
 (defun ps-exists (ps)
   (let ((f "ps -ef | grep ~S | grep -v -e grep -e stumpish | wc -l"))
     (< 0 (parse-integer (run-shell-command (format nil f ps) t)))))
@@ -27,7 +27,7 @@
                    "grep -v grep | awk '{print $2}'`")))
     (run-shell-command (format nil f command))))
 
-;; --- run these commands when a session starts -----------------
+; --- run these commands when a session starts ------------------
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
@@ -37,7 +37,7 @@
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "/home/tomo/src/backup/alert.sh")
 
-;; --- command definitions --------------------------------------
+; --- command definitions ---------------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
   (let ((cmd-str (string-downcase (symbol-name cmd))))
     `(defcommand ,cmd () ()
@@ -58,7 +58,7 @@
              (mode-line))
            (run-shell-command "gnome-panel"))))
 
-;; --- key bindings ----------------------------------------------
+; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
 (define-key *root-map*   (kbd "s") "colon exec firefox http://")
 (define-key *root-map*   (kbd "c") "gnome-terminal")
@@ -68,7 +68,7 @@
 (define-key *root-map*   (kbd "C-w") "windowlist")
 (define-key *root-map*   (kbd "b") "firefox")
 (define-key *root-map*   (kbd "C-b") "firefox")
-;; emacs style
+; emacs style
 (define-key *root-map*   (kbd "0") "remove")
 (define-key *root-map*   (kbd "1") "only")
 (define-key *root-map*   (kbd "2") "vsplit")
@@ -81,7 +81,7 @@
 (define-key *resize-map* (kbd "C-t") "exit-iresize")
 (define-key *root-map*   (kbd "N") '*notifications-map*)
 
-;; --- mode line ------------------------------------------------
+; --- mode line -------------------------------------------------
 (setf *mode-line-screen-position* :top)
 (setf *mode-line-frame-position* :top)
 (setf *mode-line-border-width* 1)
