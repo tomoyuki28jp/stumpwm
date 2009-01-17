@@ -44,7 +44,6 @@
        (run-or-raise ,cmd-str ,prop))))
 
 (def-run-or-raise-command firefox '(:class "Firefox"))
-(def-run-or-raise-command skype '(:class "Skype"))
 (def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
 
 (defcommand show-battery () ()
