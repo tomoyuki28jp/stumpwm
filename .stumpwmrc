@@ -37,8 +37,8 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
+(start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")
 (run-shell-command "/home/tomo/src/backup/alert.sh")
-(run-shell-command "/usr/bin/gnome-terminal")
 
 ; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
