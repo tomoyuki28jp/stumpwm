@@ -4,7 +4,6 @@
 (in-package :stumpwm)
 
 (setq *startup-message* nil)
-(setq *deny-raise-request* t)
 
 (mapcar #'(lambda (x)
             (load (make-pathname
