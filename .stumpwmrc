@@ -73,6 +73,8 @@
   :output t)
 
 (define-sudo-command off-emobile "poff em" :output t)
+(define-sudo-command reboot "reboot")
+(define-sudo-command shutdown "shutdown -h now")
 
 ; --- stumpwm command definitions -------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
