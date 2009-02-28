@@ -37,7 +37,7 @@
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
 (start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")
-(run-shell-command "/home/tomo/src/backup/alert.sh")
+(run-shell-command "~/src/backup/alert.sh")
 
 ; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
@@ -75,6 +75,7 @@
 (define-sudo-command off-emobile "poff em" :output t)
 (define-sudo-command reboot "reboot")
 (define-sudo-command shutdown "shutdown -h now")
+(define-sudo-command backup "~/src/backup/backup.sh")
 
 ; --- stumpwm command definitions -------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
