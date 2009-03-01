@@ -98,11 +98,18 @@
              (mode-line))
            (run-shell-command "gnome-panel"))))
 
+(defcommand emacs () ()
+  (if (ps-exists "emacs")
+    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
+    (start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")))
+
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
 (define-key *root-map*   (kbd "s") "colon exec firefox http://")
 (define-key *root-map*   (kbd "c") "gnome-terminal")
 (define-key *root-map*   (kbd "C-c") "gnome-terminal")
+(define-key *root-map*   (kbd "e") "emacs")
+(define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "*") "show-battery")
 (define-key *root-map*   (kbd "w") "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
