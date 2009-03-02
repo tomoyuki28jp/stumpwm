@@ -116,7 +116,6 @@
 (define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b") "firefox")
 (define-key *root-map*   (kbd "C-b") "firefox")
-(define-key *root-map*   (kbd "o") "openoffice")
 (define-key *root-map*   (kbd "C-o") "openoffice")
 ; emacs style
 (define-key *root-map*   (kbd "0") "remove")
