@@ -1,0 +1,4 @@
+How to use
+============
+1. git clone git://github.com/tomoyuki28jp/stumpwm.git ~/.stumpwm.d
+2. ln -s ~/.stumpwm.d/.stumpwmrc ~/
