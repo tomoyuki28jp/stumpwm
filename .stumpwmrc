@@ -2,6 +2,7 @@
 ; .stumpwmrc
 
 (in-package :stumpwm)
+(require :bordeaux-threads)
 
 (setq *startup-message* nil)
 
@@ -38,6 +39,10 @@
 (start-uniq-command-ps "update-notifier")
 (start-uniq-command-ps "mlterm" :op "-e emacs -nw")
 (run-shell-command "~/src/backup/alert.sh")
+(bordeaux-threads:make-thread
+ (lambda ()
+   (sleep 1)
+   (run-shell-command "~/src/sh/brightness.sh")))
 
 ; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
