@@ -36,7 +36,7 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
-(start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")
+(start-uniq-command-ps "mlterm" :op "-e emacs -nw")
 (run-shell-command "~/src/backup/alert.sh")
 
 ; --- shell command definitions  --------------------------------
@@ -85,6 +85,7 @@
 
 (def-run-or-raise-command firefox '(:class "Firefox"))
 (def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
+(def-run-or-raise-command mlterm '(:class "mlterm"))
 (def-run-or-raise-command openoffice '(:class "openoffice"))
 
 (defcommand show-battery () ()
@@ -101,8 +102,8 @@
 
 (defcommand emacs () ()
   (if (ps-exists "emacs")
-    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
-    (start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")))
+    (run-or-raise "mlterm" '(:class "mlterm"))
+    (start-uniq-command-ps "mlterm" :op "-e emacs -nw")))
 
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
