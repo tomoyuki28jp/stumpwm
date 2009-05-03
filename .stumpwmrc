@@ -37,7 +37,7 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
-(start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")
+(start-uniq-command-ps "urxvt" :op "-e emacs -nw")
 (run-shell-command "~/src/backup/alert.sh")
 (bordeaux-threads:make-thread
  (lambda ()
@@ -90,7 +90,6 @@
 
 (def-run-or-raise-command firefox '(:class "Firefox"))
 (def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
-(def-run-or-raise-command urxvt '(:class "URxvt"))
 (def-run-or-raise-command openoffice '(:class "openoffice"))
 
 (defcommand show-battery () ()
@@ -107,8 +106,8 @@
 
 (defcommand emacs () ()
   (if (ps-exists "emacs")
-    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
-    (start-uniq-command-ps "gnome-terminal" :op "-e 'emacs -nw'")))
+    (run-or-raise "urxvt" '(:class "URxvt"))
+    (start-uniq-command-ps "urxvt" :op "-e emacs -nw")))
 
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
@@ -116,8 +115,8 @@
 (define-key *root-map*   (kbd "*") "show-battery")
 (define-key *root-map*   (kbd "w") "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
-(define-key *root-map*   (kbd "c") "urxvt")
-(define-key *root-map*   (kbd "C-c") "urxvt")
+(define-key *root-map*   (kbd "c") "gnome-terminal")
+(define-key *root-map*   (kbd "C-c") "gnome-terminal")
 (define-key *root-map*   (kbd "e") "emacs")
 (define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b") "firefox")
