@@ -30,6 +30,12 @@
   (run-shell-command (kill-ps-command command)))
 
 ; --- run shell commands  ---------------------------------------
+
+(defun run-or-raise-emacs ()
+  (if (ps-exists "emacs")
+    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
+    (run-shell-command "gnome-terminal -x zsh -c 'emacs -nw'")))
+
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
 (start-uniq-command-ps "nm-applet" :op "--sm-disable")
@@ -37,11 +43,11 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
+(run-or-raise-emacs)
 (run-shell-command "~/src/backup/alert.sh")
 (bordeaux-threads:make-thread
  (lambda ()
-   (sleep 0.5)
-   (start-uniq-command-ps "urxvt" :op "-e emacs -nw")
+   (sleep 0.8)
    (run-shell-command "~/src/sh/brightness.sh")))
 
 ; --- shell command definitions  --------------------------------
@@ -88,12 +94,15 @@
     `(defcommand ,cmd () ()
        (run-or-raise ,cmd-str ,prop))))
 
+;(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
+;(def-run-or-raise-command mlterm '(:class "mlterm"))
+(def-run-or-raise-command urxvt '(:class "URxvt"))
 (def-run-or-raise-command firefox '(:class "Firefox"))
-(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
 (def-run-or-raise-command openoffice '(:class "openoffice"))
 
 (defcommand show-battery () ()
-  (echo-string (current-screen) (run-shell-command "acpi" t)))
+  (echo-string (current-screen)
+               (run-shell-command "acpi" t)))
 
 (defcommand gnome-panel () ()
   (if (ps-exists "gnome-panel")
@@ -105,9 +114,7 @@
            (run-shell-command "gnome-panel"))))
 
 (defcommand emacs () ()
-  (if (ps-exists "emacs")
-    (run-or-raise "urxvt" '(:class "URxvt"))
-    (start-uniq-command-ps "urxvt" :op "-e emacs -nw")))
+  (run-or-raise-emacs))
 
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
@@ -115,8 +122,8 @@
 (define-key *root-map*   (kbd "*") "show-battery")
 (define-key *root-map*   (kbd "w") "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
-(define-key *root-map*   (kbd "c") "gnome-terminal")
-(define-key *root-map*   (kbd "C-c") "gnome-terminal")
+(define-key *root-map*   (kbd "c") "urxvt")
+(define-key *root-map*   (kbd "C-c") "urxvt")
 (define-key *root-map*   (kbd "e") "emacs")
 (define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b") "firefox")
