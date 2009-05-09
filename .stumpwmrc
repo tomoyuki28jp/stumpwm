@@ -34,7 +34,8 @@
 (defun run-or-raise-emacs ()
   (if (ps-exists "emacs")
     (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
-    (run-shell-command "gnome-terminal -x zsh -c 'emacs -nw'")))
+    (run-shell-command
+     "gnome-terminal -x zsh -c 'TERM=xterm-256color; emacs -nw'")))
 
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
