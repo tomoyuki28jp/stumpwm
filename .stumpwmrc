@@ -33,9 +33,8 @@
 
 (defun run-or-raise-emacs ()
   (if (ps-exists "emacs")
-    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
-    (run-shell-command
-     "gnome-terminal -x zsh -c 'TERM=xterm-256color; emacs -nw'")))
+    (run-or-raise "urxvt" '(:class "URxvt"))
+    (run-shell-command "urxvt -e emacs -nw")))
 
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
@@ -44,11 +43,11 @@
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
-(run-or-raise-emacs)
 (run-shell-command "~/src/backup/alert.sh")
 (bordeaux-threads:make-thread
  (lambda ()
-   (sleep 0.8)
+   (sleep 0.5)
+   (run-or-raise-emacs)
    (run-shell-command "~/src/sh/brightness.sh")))
 
 ; --- shell command definitions  --------------------------------
