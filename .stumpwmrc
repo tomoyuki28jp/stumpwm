@@ -46,7 +46,7 @@
 (run-shell-command "~/src/backup/alert.sh")
 (bordeaux-threads:make-thread
  (lambda ()
-   (sleep 0.5)
+   (sleep 0.8)
    (run-or-raise-emacs)
    (run-shell-command "~/src/sh/brightness.sh")))
 
