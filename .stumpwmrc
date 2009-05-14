@@ -47,6 +47,7 @@
 (bordeaux-threads:make-thread
  (lambda ()
    (sleep 0.8)
+   (run-shell-command "xset fp+ ~/.fonts")
    (run-or-raise-emacs)
    (run-shell-command "~/src/sh/brightness.sh")))
 
