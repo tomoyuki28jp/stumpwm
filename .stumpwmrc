@@ -48,8 +48,7 @@
  (lambda ()
    (sleep 0.8)
    (run-shell-command "xset fp+ ~/.fonts")
-   (run-or-raise-emacs)
-   (run-shell-command "~/src/sh/brightness.sh")))
+   (run-or-raise-emacs)))
 
 ; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
