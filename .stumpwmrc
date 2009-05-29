@@ -98,7 +98,7 @@
 ;(def-run-or-raise-command mlterm '(:class "mlterm"))
 ;(def-run-or-raise-command urxvt '(:class "URxvt"))
 (def-run-or-raise-command firefox '(:class "Firefox"))
-(def-run-or-raise-command openoffice '(:class "openoffice"))
+(def-run-or-raise-command soffice '(:class "soffice"))
 
 (defcommand show-battery () ()
   (echo-string (current-screen)
@@ -128,7 +128,7 @@
 (define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b") "firefox")
 (define-key *root-map*   (kbd "C-b") "firefox")
-(define-key *root-map*   (kbd "C-o") "openoffice")
+(define-key *root-map*   (kbd "C-o") "soffice")
 ; emacs style
 (define-key *root-map*   (kbd "0") "remove")
 (define-key *root-map*   (kbd "1") "only")
