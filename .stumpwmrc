@@ -33,8 +33,9 @@
 
 (defun run-or-raise-emacs ()
   (if (ps-exists "emacs")
-    (run-or-raise "urxvt" '(:class "URxvt"))
-    (run-shell-command "urxvt -e emacs -nw")))
+    (run-or-raise "gnome-terminal" '(:class "Gnome-terminal"))
+    (run-shell-command
+     "gnome-terminal -x zsh -c 'TERM=xterm-256color; emacs -nw'")))
 
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
@@ -94,9 +95,9 @@
     `(defcommand ,cmd () ()
        (run-or-raise ,cmd-str ,prop))))
 
-(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
+;(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
 ;(def-run-or-raise-command mlterm '(:class "mlterm"))
-;(def-run-or-raise-command urxvt '(:class "URxvt"))
+(def-run-or-raise-command urxvt '(:class "URxvt"))
 (def-run-or-raise-command firefox '(:class "Firefox"))
 (def-run-or-raise-command soffice '(:class "soffice"))
 
@@ -122,8 +123,8 @@
 (define-key *root-map*   (kbd "*") "show-battery")
 (define-key *root-map*   (kbd "w") "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
-(define-key *root-map*   (kbd "c") "gnome-terminal")
-(define-key *root-map*   (kbd "C-c") "gnome-terminal")
+(define-key *root-map*   (kbd "c") "urxvt")
+(define-key *root-map*   (kbd "C-c") "urxvt")
 (define-key *root-map*   (kbd "e") "emacs")
 (define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b") "firefox")
