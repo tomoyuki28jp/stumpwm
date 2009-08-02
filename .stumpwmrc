@@ -46,7 +46,7 @@
 (run-shell-command "~/src/backup/alert.sh")
 (bordeaux-threads:make-thread
  (lambda ()
-   (sleep 0.8)
+   (sleep 1)
    (run-shell-command "xset fp+ ~/.fonts")
    (run-or-raise-emacs)))
 
@@ -99,6 +99,7 @@
 ;(def-run-or-raise-command urxvt '(:class "URxvt"))
 (def-run-or-raise-command firefox '(:class "Firefox"))
 (def-run-or-raise-command soffice '(:class "soffice"))
+(def-run-or-raise-command virtualbox '(:class "VirtualBox"))
 
 (defcommand show-battery () ()
   (echo-string (current-screen)
@@ -118,17 +119,18 @@
 
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
-(define-key *root-map*   (kbd "s") "colon exec firefox http://")
-(define-key *root-map*   (kbd "*") "show-battery")
-(define-key *root-map*   (kbd "w") "windowlist")
+(define-key *root-map*   (kbd "s")   "colon exec firefox http://")
+(define-key *root-map*   (kbd "*")   "show-battery")
+(define-key *root-map*   (kbd "w")   "windowlist")
 (define-key *root-map*   (kbd "C-w") "windowlist")
-(define-key *root-map*   (kbd "c") "gnome-terminal")
+(define-key *root-map*   (kbd "c")   "gnome-terminal")
 (define-key *root-map*   (kbd "C-c") "gnome-terminal")
-(define-key *root-map*   (kbd "e") "emacs")
+(define-key *root-map*   (kbd "e")   "emacs")
 (define-key *root-map*   (kbd "C-e") "emacs")
-(define-key *root-map*   (kbd "b") "firefox")
+(define-key *root-map*   (kbd "b")   "firefox")
 (define-key *root-map*   (kbd "C-b") "firefox")
 (define-key *root-map*   (kbd "C-o") "soffice")
+(define-key *root-map*   (kbd "v")   "virtualbox")
 ; emacs style
 (define-key *root-map*   (kbd "0") "remove")
 (define-key *root-map*   (kbd "1") "only")
