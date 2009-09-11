@@ -5,11 +5,9 @@
 
 (setq *startup-message* nil)
 
-(mapcar #'(lambda (x)
-            (load (make-pathname
-                   :directory '(:relative ".stumpwm.d" "contrib")
-                   :name x :type "lisp")))
-        '("battery" "notifications"))
+(loop for file in '("battery" "notifications")
+      do (load (make-pathname :name file :type "lisp" :directory
+                              '(:relative ".stumpwm.d" "contrib"))))
 
 ; --- process management ----------------------------------------
 (defun ps-exists (ps)
