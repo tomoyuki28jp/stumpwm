@@ -2,7 +2,6 @@
 ; .stumpwmrc
 
 (in-package :stumpwm)
-(require :bordeaux-threads)
 
 (setq *startup-message* nil)
 
@@ -32,9 +31,7 @@
 ; --- run shell commands  ---------------------------------------
 
 (defun run-or-raise-emacs ()
-  (if (ps-exists "emacs")
-    (run-or-raise "urxvt" '(:class "URxvt"))
-    (run-shell-command "urxvt -e emacs -nw")))
+  (run-or-raise "emacs-snapshot-gtk" '(:class "Emacs")))
 
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
@@ -44,11 +41,7 @@
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "~/src/backup/alert.sh")
-(bordeaux-threads:make-thread
- (lambda ()
-   (sleep 1)
-   (run-shell-command "xset fp+ ~/.fonts")
-   (run-or-raise-emacs)))
+(run-or-raise-emacs)
 
 ; --- shell command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
