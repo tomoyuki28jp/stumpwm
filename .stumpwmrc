@@ -113,13 +113,9 @@
 (define-key *root-map*   (kbd "s")   "colon exec firefox http://")
 (define-key *root-map*   (kbd "*")   "show-battery")
 (define-key *root-map*   (kbd "w")   "windowlist")
-(define-key *root-map*   (kbd "C-w") "windowlist")
 (define-key *root-map*   (kbd "c")   "gnome-terminal")
-(define-key *root-map*   (kbd "C-c") "gnome-terminal")
 (define-key *root-map*   (kbd "e")   "emacs")
-(define-key *root-map*   (kbd "C-e") "emacs")
 (define-key *root-map*   (kbd "b")   "firefox")
-(define-key *root-map*   (kbd "C-b") "firefox")
 (define-key *root-map*   (kbd "C-o") "soffice")
 (define-key *root-map*   (kbd "v")   "virtualbox")
 ; emacs style
