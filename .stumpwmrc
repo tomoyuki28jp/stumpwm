@@ -141,7 +141,7 @@
 (setf *mode-line-border-color* "dark grey")
 (setf *screen-mode-line-format*
       (list "^03%N^n "
-	    '(:eval (run-shell-command
+            '(:eval (run-shell-command
                      "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
             " | %b | %g"))
 (unless (head-mode-line (current-head))
