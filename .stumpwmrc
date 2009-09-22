@@ -78,6 +78,8 @@
 (define-sudo-command reboot "reboot")
 (define-sudo-command shutdown "shutdown -h now")
 (define-sudo-command backup "~/src/backup/backup.sh")
+(define-sudo-command apache-start "/etc/init.d/apache2 start")
+(define-sudo-command apache-stop  "/etc/init.d/apache2 stop")
 
 ; --- stumpwm command definitions -------------------------------
 (defmacro def-run-or-raise-command (cmd prop)
