@@ -95,8 +95,10 @@
 (def-run-or-raise-command virtualbox '(:class "VirtualBox"))
 
 (defcommand show-battery () ()
-  (echo-string (current-screen)
-               (run-shell-command "acpi" t)))
+  (echo-string (current-screen) (run-shell-command "acpi" t)))
+
+(defcommand uptime () ()
+  (echo-string (current-screen) (run-shell-command "uptime" t)))
 
 (defcommand gnome-panel () ()
   (if (ps-exists "gnome-panel")
