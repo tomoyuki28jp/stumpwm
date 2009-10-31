@@ -14,10 +14,10 @@
   (let ((f "ps -ef | grep ~S | grep -v -e grep -e stumpish | wc -l"))
     (< 0 (parse-integer (run-shell-command (format nil f ps) t)))))
 
-(defun start-uniq-command-ps (command &key op (bg t))
+(defun start-uniq-command-ps (command &key options (background t))
   (unless (ps-exists command)
     (run-shell-command
-     (concat command " " (or op "") " " (if bg "&" "")))))
+     (concat command " " options " " (when background "&")))))
 
 (defun kill-ps-command (command)
   (format nil "kill -TERM `ps -ef | grep ~S | grep -v grep | awk '{print $2}'`"
@@ -33,7 +33,7 @@
 
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
-(start-uniq-command-ps "nm-applet" :op "--sm-disable")
+(start-uniq-command-ps "nm-applet" :options "--sm-disable")
 (start-uniq-command-ps "gnome-settings-daemon")
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
