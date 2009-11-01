@@ -128,6 +128,7 @@
 (define-key *input-map*  (kbd "C-h") 'input-delete-backward-char)
 (define-key *input-map*  (kbd "M-p") 'input-history-back)
 (define-key *input-map*  (kbd "M-n") 'input-history-forward)
+(define-key *input-map*  (kbd "C-i") 'input-complete-forward)
 (define-key *resize-map* (kbd "C-m") "exit-iresize")
 
 ; --- mode line -------------------------------------------------
