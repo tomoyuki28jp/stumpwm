@@ -36,6 +36,9 @@
 (def-run-or-raise-command soffice '(:class "soffice"))
 (def-run-or-raise-command virtualbox '(:class "VirtualBox"))
 
+(defcommand ps-kill (ps) ((:rest "Process to kill: "))
+  (kill-ps ps))
+
 (defcommand emacs () ()
   (run-or-raise "emacs-snapshot-gtk" '(:class "Emacs")))
 
