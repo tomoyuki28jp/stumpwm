@@ -97,8 +97,8 @@
 
 (define-sudo-command on-emobile
   (concat "pon em"
-          (when (ps-exists "Network")
-            (concat "&& sudo " (kill-ps-command "Network"))))
+          (when (ps-exists "nm-applet")
+            (concat "&& sudo " (kill-ps-command "nm-applet"))))
   :output t)
 
 (define-sudo-command off-emobile "poff em" :output t)
