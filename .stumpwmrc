@@ -1,9 +1,6 @@
 ; -*- Mode: Lisp; Mode: StumpWM; -*-
 ; .stumpwmrc
-
 (in-package :stumpwm)
-
-(setq *startup-message* nil)
 
 (loop for file in '("battery" "notifications")
       do (load (make-pathname :name file :type "lisp" :directory
@@ -26,22 +23,52 @@
 (defun kill-ps (command)
   (run-shell-command (kill-ps-command command)))
 
-; --- run shell commands  ---------------------------------------
+; --- stumpwm command definitions -------------------------------
+(defmacro def-run-or-raise-command (cmd prop)
+  (let ((cmd-str (string-downcase (symbol-name cmd))))
+    `(defcommand ,cmd () ()
+       (run-or-raise ,cmd-str ,prop))))
 
-(defun run-or-raise-emacs ()
+(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
+;(def-run-or-raise-command mlterm '(:class "mlterm"))
+;(def-run-or-raise-command urxvt '(:class "URxvt"))
+(def-run-or-raise-command firefox '(:class "Firefox"))
+(def-run-or-raise-command soffice '(:class "soffice"))
+(def-run-or-raise-command virtualbox '(:class "VirtualBox"))
+
+(defcommand emacs () ()
   (run-or-raise "emacs-snapshot-gtk" '(:class "Emacs")))
 
+(defcommand nm-applet () ()
+  (start-uniq-command-ps "nm-applet" :options "--sm-disable"))
+
+(defcommand show-battery () ()
+  (echo-string (current-screen) (run-shell-command "acpi" t)))
+
+(defcommand uptime () ()
+  (echo-string (current-screen) (run-shell-command "uptime" t)))
+
+(defcommand gnome-panel () ()
+  (if (ps-exists "gnome-panel")
+    (progn (kill-ps "gnome-panel")
+           (sleep 0.3)
+           (run-shell-command "stumpish mode-line"))
+    (progn (when (head-mode-line (current-head))
+             (mode-line))
+           (run-shell-command "gnome-panel"))))
+
+; --- run commands  ---------------------------------------
 (run-shell-command "xsetroot -solid black")
 (run-shell-command "/opt/atokx3/sample/iiimf_status_hide")
-(start-uniq-command-ps "nm-applet" :options "--sm-disable")
+(nm-applet)
 (start-uniq-command-ps "gnome-settings-daemon")
 (start-uniq-command-ps "gnome-power-manager")
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "~/src/backup/alert.sh")
-(run-or-raise-emacs)
+(emacs)
 
-; --- shell command definitions  --------------------------------
+; --- sudo command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
   (let ((history *input-history*)
         (arg (argument-pop input))
@@ -81,37 +108,6 @@
 (define-sudo-command apache-start "/etc/init.d/apache2 start")
 (define-sudo-command apache-stop  "/etc/init.d/apache2 stop")
 
-; --- stumpwm command definitions -------------------------------
-(defmacro def-run-or-raise-command (cmd prop)
-  (let ((cmd-str (string-downcase (symbol-name cmd))))
-    `(defcommand ,cmd () ()
-       (run-or-raise ,cmd-str ,prop))))
-
-(def-run-or-raise-command gnome-terminal '(:class "Gnome-terminal"))
-;(def-run-or-raise-command mlterm '(:class "mlterm"))
-;(def-run-or-raise-command urxvt '(:class "URxvt"))
-(def-run-or-raise-command firefox '(:class "Firefox"))
-(def-run-or-raise-command soffice '(:class "soffice"))
-(def-run-or-raise-command virtualbox '(:class "VirtualBox"))
-
-(defcommand show-battery () ()
-  (echo-string (current-screen) (run-shell-command "acpi" t)))
-
-(defcommand uptime () ()
-  (echo-string (current-screen) (run-shell-command "uptime" t)))
-
-(defcommand gnome-panel () ()
-  (if (ps-exists "gnome-panel")
-    (progn (kill-ps "gnome-panel")
-           (sleep 0.3)
-           (run-shell-command "stumpish mode-line"))
-    (progn (when (head-mode-line (current-head))
-             (mode-line))
-           (run-shell-command "gnome-panel"))))
-
-(defcommand emacs () ()
-  (run-or-raise-emacs))
-
 ; --- key bindings -----------------------------------------------
 (set-prefix-key (kbd "C-,"))
 (define-key *root-map*   (kbd "s")   "colon exec firefox http://")
@@ -150,3 +146,6 @@
             " | %b | %g"))
 (unless (head-mode-line (current-head))
   (mode-line))
+
+; --- misc ------------------------------------------------------
+(setq *startup-message* nil)
