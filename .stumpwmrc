@@ -121,6 +121,7 @@
 (define-key *root-map*   (kbd "b")   "firefox")
 (define-key *root-map*   (kbd "C-o") "soffice")
 (define-key *root-map*   (kbd "v")   "virtualbox")
+(define-key *root-map*   (kbd "P")   "gnome-panel")
 (define-key *root-map*   (kbd "N")   '*notifications-map*)
 ; emacs style
 (define-key *root-map*   (kbd "0")   "remove")
