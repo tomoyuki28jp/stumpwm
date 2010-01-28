@@ -135,6 +135,33 @@
 (define-key *input-map*  (kbd "C-i") 'input-complete-forward)
 (define-key *resize-map* (kbd "C-m") "exit-iresize")
 
+; --- days -------------------------------------------------
+(defun leap-year-p (year)
+  "Returns true if the YEAR is a leap year and nil otherwise."
+  (and (plusp year)
+       (zerop (mod year 4))
+       (or (plusp (mod year 100))
+           (zerop (mod year 400)))))
+
+(defun days-of (year month)
+  "Returns the last day of the MONTH in the YEAR."
+  (let ((feb (if (leap-year-p year) 29 28)))
+    (nth (1- month) `(31 ,feb 31 30 31 30 31 31 30 31 30 31))))
+
+(defun days-left-until-2010-06-31 ()
+  "Returns the days left until June 31st, 2010"
+  (multiple-value-bind (s min h d m y) (get-decoded-time)
+    (declare (ignore s min h))
+    (if (> m 6)
+        0
+        (apply '+ (append (list (- (days-of y m) d))
+                          (loop for i from (1+ m) to 6
+                                collect (days-of y i)))))))
+
+(defun ->string (x)
+  (with-output-to-string (s)
+    (when x (princ x s))))
+
 ; --- mode line -------------------------------------------------
 (setf *mode-line-screen-position* :top)
 (setf *mode-line-frame-position* :top)
@@ -148,7 +175,8 @@
       (list "^03%N^n "
             '(:eval (run-shell-command
                      "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
-            " | %b | %g"))
+            " | " (->string (days-left-until-2010-06-31))
+            " days | %b | %g"))
 (unless (head-mode-line (current-head))
   (mode-line))
 
