@@ -2,6 +2,9 @@
 ; .stumpwmrc
 (in-package :stumpwm)
 
+(setq *startup-message* nil)
+(setq *startup-mode-line* nil)
+
 (loop for file in '("battery" "notifications")
       do (load (make-pathname :name file :type "lisp" :directory
                               '(:relative ".stumpwm.d" "contrib"))))
@@ -55,7 +58,8 @@
   (if (ps-exists "gnome-panel")
     (progn (kill-ps "gnome-panel")
            (sleep 0.3)
-           (run-shell-command "stumpish mode-line"))
+           (when *startup-mode-line*
+             (run-shell-command "stumpish mode-line")))
     (progn (when (head-mode-line (current-head))
              (mode-line))
            (run-shell-command "gnome-panel"))))
@@ -167,8 +171,5 @@
                      "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
             " | %b | %g"))
 
-;(unless (head-mode-line (current-head))
-;  (mode-line))
-
-; --- misc ------------------------------------------------------
-(setq *startup-message* nil)
+(when (and *startup-mode-line* (not (head-mode-line (current-head))))
+  (mode-line))
