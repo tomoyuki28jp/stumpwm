@@ -73,7 +73,7 @@
 (start-uniq-command-ps "gnome-valume-manager")
 (start-uniq-command-ps "update-notifier")
 (run-shell-command "~/src/backup/alert.sh")
-(emacs)
+;(emacs)
 
 ; --- sudo command definitions  --------------------------------
 (define-stumpwm-type :password (input prompt)
