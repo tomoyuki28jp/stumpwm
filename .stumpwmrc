@@ -3,7 +3,7 @@
 (in-package :stumpwm)
 
 (setq *startup-message* nil)
-(setq *startup-mode-line* nil)
+(setq *startup-mode-line* t)
 
 (loop for file in '("battery" "notifications")
       do (load (make-pathname :name file :type "lisp" :directory
