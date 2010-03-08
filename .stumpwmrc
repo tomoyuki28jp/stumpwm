@@ -172,5 +172,6 @@
                      "LANG=c; date '+%m/%d(%a)_%H:%M'|tr -d [:cntrl:]" t))
             " | %b | %g"))
 
-(when (and *startup-mode-line* (not (head-mode-line (current-head))))
+(when (and *startup-mode-line*
+           (not (head-mode-line (current-head))))
   (mode-line))
