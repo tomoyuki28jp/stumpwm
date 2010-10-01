@@ -43,7 +43,7 @@
   (kill-ps ps))
 
 (defcommand emacs () ()
-  (run-or-raise "emacs-snapshot-gtk" '(:class "Emacs")))
+  (run-or-raise "emacs" '(:class "Emacs")))
 
 (defcommand nm-applet () ()
   (start-uniq-command-ps "nm-applet" :options "--sm-disable"))
