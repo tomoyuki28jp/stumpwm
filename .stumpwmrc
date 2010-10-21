@@ -128,6 +128,7 @@
 (define-key *root-map*   (kbd "P")   "gnome-panel")
 (define-key *root-map*   (kbd "m")   "mode-line")
 (define-key *root-map*   (kbd "N")   '*notifications-map*)
+(define-key *root-map*   (kbd "u")   "uptime")
 ; emacs style
 (define-key *root-map*   (kbd "0")   "remove")
 (define-key *root-map*   (kbd "1")   "only")
